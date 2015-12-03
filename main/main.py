@@ -1,4 +1,4 @@
-from roviotest import tests
+from test import tests
 from . import parser
 import sys
 import os.path
