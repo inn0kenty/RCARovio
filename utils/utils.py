@@ -1,8 +1,9 @@
 class Command(object):
+    """The Command class represent a one instruction to rovio"""
     def __init__(self, command_array):
-        self.__name = command_array[0]
+        self.__name = command_array[0]  # command name
         del command_array[0]
-        self.__parameters = command_array
+        self.__parameters = command_array  # parameters for command
 
     def get_name(self):
         return self.__name
@@ -12,6 +13,7 @@ class Command(object):
 
 
 class Commands(object):
+    """The Commands class represent a list of commands that rovio should do"""
     def __init__(self):
         self.__commands = []
 
@@ -38,7 +40,8 @@ class Commands(object):
 
 
 class FileParser(object):
-    def __init__(self, file_path):
+    """Parse commands from file to a Commands object"""
+    def __init__(self, fil e_path):
         self.__file_path = file_path
         self.__commands = Commands()
 
@@ -50,7 +53,7 @@ class FileParser(object):
     def get_commands(self):
         return self.__commands
 
-    def __parse_command(self, command):
+     def __parse_command(self, command):
         command = command.strip('\n')
         command = (' '.join(command.split())).split(' ')
         return command
