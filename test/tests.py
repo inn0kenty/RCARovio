@@ -5,11 +5,9 @@ class Test(object):
     def __init__(self, file_path):
         self.__file_path = file_path
         self.__available_commands = ('address')
+
     def syntax(self):
         print 'test'
-
-    def battery(self):
-        print '122'
 
     def ping(self):
         command_file = open(self.__file_path, 'r')
@@ -25,10 +23,12 @@ class Test(object):
             print 'Ping error\nFile syntax error\nip is incorrect'
             exit(-1)
 
-        if not self.__request(command[1]):
+        ping, battery = self.__request(command[1])
+
+        if not ping:
             exit(-1)
 
-        print 'Ping test OK'
+        print 'Ping test OK\nBattery lavel: ' + battery
 
     def __is_ip_correct(self, ip):
         ip = ip.split('.')
@@ -45,22 +45,22 @@ class Test(object):
     def __request(self, ip):
         connection = httplib.HTTPConnection(ip, timeout=10)
 
-        params = urllib.urlencode({'Cmd': 'nav', 'action': 1})
+        params = urllib.urlencode([('Cmd', 'nav'), ('action', 1)])
         try:
-            connection.request('POST','/cgi-bin/rev.cgi', params)
+            connection.request('POST','/rev.cgi', params)
+            response = connection.getresponse()
         except :
             print 'Ping error\nConnection failed'
             connection.close()
-            return False
-
-        response = connection.getresponse()
+            return False, None
 
         response = response.read().strip('\n')
         connection.close()
 
-        response = response.split('\n')[1].split('|')[0].split('=')
+        ping = response.split('\n')[1].split('|')[0].split('=')
+        battery = response.split('\n')[7].split('|')[1].split('=')
 
-        if int(response[1]) == 0:
-            return True
+        if int(ping[1]) == 0:
+            return True, battery[1]
         else:
-            return False
+            return False, None
