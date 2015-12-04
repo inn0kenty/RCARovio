@@ -8,6 +8,9 @@ class Test(object):
     def syntax(self):
         print 'test'
 
+    def battery(self):
+        print '122'
+
     def ping(self):
         command_file = open(self.__file_path, 'r')
         command = command_file.readline().strip('\n')
