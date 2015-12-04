@@ -11,7 +11,7 @@ class Command(object):
         return self.__parameters
 
 
-class Commaands(object):
+class Commands(object):
     def __init__(self):
         self.__commands = []
 
@@ -19,7 +19,13 @@ class Commaands(object):
         """ command should be as list """
         self.__commands.append(Command(command))
 
-    def __iter__(self):
+    def get(self, index):
+        if (0 <= index) and (index < len(self.__commands)):
+            return self.__commands[index]
+        else:
+            return None
+
+    def __ite r__(self):
         self.__position = 0
         return self
 
@@ -34,4 +40,5 @@ class Commaands(object):
 #class FileParser(object):
 #    def __init__(self, file_path):
 #        self.__file_path = file_path
+
 
