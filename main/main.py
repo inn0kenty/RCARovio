@@ -17,6 +17,4 @@ def main():
             test.ping()
         if args.test:
             test.syntax()
-        if args.battery:
-            test.battery()
 
