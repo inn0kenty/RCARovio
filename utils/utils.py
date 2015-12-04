@@ -10,6 +10,27 @@ class Command(object):
     def get_params(self):
         return self.__parameters
 
+
+class Commaands(object):
+    def __init__(self):
+        self.__commands = []
+
+    def add_command(self, command):
+        """ command should be as list """
+        self.__commands.append(Command(command))
+
+    def __iter__(self):
+        self.__position = 0
+        return self
+
+    def next(self):
+        if self.__position < len(self.__commands):
+            return self.__commands[self.__position]
+        else:
+            raise StopIteration()
+
+
+
 #class FileParser(object):
 #    def __init__(self, file_path):
 #        self.__file_path = file_path
