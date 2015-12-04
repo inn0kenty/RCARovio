@@ -58,11 +58,18 @@ class Test(object):
         print 'Syntax test OK'
 
     def __is_speed_correct(self, speed):
-        print speed
-        return True
+        speed = int(speed)
 
+        if (speed <= 0) or (speed > 10):
+            return False
+
+        return True
     def __is_time_correct(self, time):
-        print time
+        time = int(time)
+
+        if time <= 0:
+            return False
+
         return True
 
     def ping(self):
@@ -84,7 +91,6 @@ class Test(object):
         print 'Ping test OK\nBattery level: ' + battery
 
     def __is_ip_correct(self, ip):
-        print ip
         ip = ip.split('.')
 
         if len(ip) != 4:
