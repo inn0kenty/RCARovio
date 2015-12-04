@@ -2,10 +2,8 @@ import httplib
 import urllib
 
 class Test(object):
-    #__available_commands = {'address': }
-
-    def __init__(self, file_path):
-        self.__file_path = file_path
+    def __init__(self, commands):
+        self.__commands = commands
         self.__available_commands = {'address': (self.__is_ip_correct, ),
             'forward': (self.__is_speed_correct, self.__is_time_correct),
             'backward': (self.__is_speed_correct, self.__is_time_correct),
@@ -29,46 +27,43 @@ class Test(object):
             'capture_image': ()
             }
 
-
     def syntax(self):
-        command_file = open(self.__file_path, 'r')
         line_number = 0
 
-        for line in command_file:
+        for command in self.__commands:
             line_number += 1
-            commands = line.split(' ')
 
-            for co in commands:
-                if co == '' or co == '\n':
-                    del commands[co]
+            if line_number == 1:
+                if command.get_name() != 'address':
+                    print 'Syntax error\naddress should be first'
+                    exit(-1)
 
-            #del commands[len(commands) - 1] # remove \n from end
-            print commands
-            methods = self.__available_commands[commands[0]]
-            del commands[0]
+            try:
+                test_func = self.__available_commands[command.get_name()]
+            except:
+                print 'Syntax error\nline ' + str(line_number)
+                exit(-1)
 
-            #print methods[0](commands[0])
-
-            if len(commands) != 0:
-                if len(methods) != len(commands):
-                    print methods, commands
+            params_count = len(command.get_params())
+            if len(test_func) != params_count:
+                print 'Syntax error\nline ' + str(line_number)
+                exit(-1)
+            for test, command in zip(test_func, command.get_params()):
+                if not test(command):
                     print 'Syntax error\nline ' + str(line_number)
                     exit(-1)
 
-                for method, command in zip(methods, commands):
-                    method(command)
-
-        command_file.close()
+        print 'Syntax test OK'
 
     def __is_speed_correct(self, speed):
-        print 'speed'
+        print speed
         return True
 
     def __is_time_correct(self, time):
-        print 'time'
+        print time
         return True
 
-    def  ping(self):
+    def ping(self):
         command_file = open(self.__file_path, 'r')
         command = command_file.readline().strip('\n')
         command_file.close()
@@ -92,6 +87,7 @@ class Test(object):
         print 'Ping test OK\nBattery lavel: ' + battery
 
     def __is_ip_correct(self, ip):
+        print ip
         ip = ip.split('.')
 
         if len(ip) != 4:
