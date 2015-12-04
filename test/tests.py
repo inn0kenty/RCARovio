@@ -45,9 +45,11 @@ class Test(object):
                 exit(-1)
 
             params_count = len(command.get_params())
+
             if len(test_func) != params_count:
                 print 'Syntax error\nline ' + str(line_number)
                 exit(-1)
+
             for test, command in zip(test_func, command.get_params()):
                 if not test(command):
                     print 'Syntax error\nline ' + str(line_number)
@@ -64,27 +66,22 @@ class Test(object):
         return True
 
     def ping(self):
-        command_file = open(self.__file_path, 'r')
-        command = command_file.readline().strip('\n')
-        command_file.close()
-        command = command.split(' ')
-        #print self.__available_commands[command[0]](command[1])
-
-        #if not (command[0] in Test.__available_commands):
-        #    print 'Ping error\nFile syntax error\naddress keyword not found'
-        #    exit(-1)
-
-        if not self.__available_commands[command[0]](command[1]):
-            print 'Ping error\nFile syntax error\naddress keyword not found or\
-                \nip is incorrect'
+        command = self.__commands.get(0)
+        if command.get_name() != 'address':
+            print 'Ping error\nFile syntax error\naddress keyword not found'
             exit(-1)
 
-        ping, battery = self.__request(command[1])
+        ip = command.get_params()[0]
+        if not self.__is_ip_correct(ip):
+            print 'Ping error\nBad address'
+            exit(-1)
+
+        ping, battery = self.__request(ip)
 
         if not ping:
             exit(-1)
 
-        print 'Ping test OK\nBattery lavel: ' + battery
+        print 'Ping test OK\nBattery level: ' + battery
 
     def __is_ip_correct(self, ip):
         print ip
@@ -104,7 +101,7 @@ class Test(object):
 
         params = urllib.urlencode([('Cmd', 'nav'), ('action', 1)])
         try:
-            connection.request('POST','/rev.cgi', params)
+            connection.request('POST','/cgi-bin/rev.cgi', params)
             response = connection.getresponse()
         except :
             print 'Ping error\nConnection failed'
