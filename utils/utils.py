@@ -2,15 +2,44 @@ class Command(object):
     """The Command class represent a one instruction to rovio"""
     def __init__(self, command_array):
         self.__name = command_array[0]  # command name
+        self.__value = self.__set_value(self.__name)
         del command_array[0]
-        self.__parameters = command_array  # parameters for command
+        command_array = dict(enumerate(command_array))
+        self.__speed = command_array.get(0, 1)
+        self.__time = command_array.get(1, 1)
+        #self.__parameters = command_array  # parameters for command
 
     def get_name(self):
         return self.__name
 
-    def get_params(self):
-        return self.__parameters
+    def get_speed(self):
+        return self.__speed
 
+    def get_time(self):
+        return self.__time
+
+    def get_value(self):
+        return self.__value
+
+    def __set_value(self, x):
+        return { 'address': 0,
+                'forward': 1,
+                'backward': 2,
+                'straight_left': 3,
+                'straight_right': 4,
+                'rotate_left_by_speed': 5,
+                'rotate_right_by_speed': 6,
+                'diagonal_forward_left': 7,
+                'diagonal_forward_right': 8,
+                'diagonal_backward_left': 9,
+                'diagonal_backward_right': 10,
+                'head_up': 11,
+                'head_down': 12,
+                'head_middle': 13,
+                'rotate_left_by_20_degree': 17,
+                'rotate_right_by_20_degree': 18,
+                'capture_image': 19
+                }.get(x, -1)
 
 class Commands(object):
     """The Commands class represent a list of commands that rovio should do"""

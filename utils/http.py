@@ -1,5 +1,6 @@
 import httplib
 import urllib
+import time
 
 
 class HTTPRequests (object):
@@ -10,8 +11,36 @@ class HTTPRequests (object):
     def add_image_handler(self, image_handler):
         self.__image_handler = image_handler
 
-    def move(self, speed, time):
-        pass
+    def move(self, command):
+        connection = httplib.HTTPConnection(self.__ip, timeout=10)
+
+        params = urllib.urlencode([('Cmd', 'nav'), ('action', 18),
+                                   ('drive', command.get_value()),
+                                   ('speed', command.get_speed())])
+
+        for i in xrange(command.get_time()):
+            try:
+                connection.request('POST', '/rev.cgi', params)
+                response = connection.getresponse()
+            except:
+                print 'Connection failed'
+                connection.close()
+                return False
+
+            # parsing response
+            response = response.read().strip('\n')
+
+            # response parameter
+            response = response.split('\n')[1].split('|')[0].split('=')
+            if int(response) != 0:
+                print 'Bad response from Rovio\nInternal error'
+                connection.close()
+                return False
+
+            time.sleep(1)
+
+        connection.close()
+        return True
 
     def cap_image(self):
         file_name = ""
