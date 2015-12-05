@@ -1,6 +1,4 @@
-import httplib
-import urllib
-
+from utils import http
 
 class Test(object):
     def __init__(self, commands):
@@ -102,7 +100,8 @@ class Test(object):
             exit(-1)
 
         # send request to rovio
-        ping, battery = self.__request(ip)
+        request = http.HTTPRequests(ip)
+        ping, battery = request.ping()
 
         if not ping:
             exit(-1)
@@ -120,29 +119,3 @@ class Test(object):
                 return False
 
         return True
-
-    def __request(self, ip):
-        connection = httplib.HTTPConnection(ip, timeout=10)
-
-        params = urllib.urlencode([('Cmd', 'nav'), ('action', 1)])
-        try:
-            connection.request('POST', '/rev.cgi', params)
-            response = connection.getresponse()
-        except:
-            print 'Ping error\nConnection failed'
-            connection.close()
-            return False, None
-
-        # parsing response
-        response = response.read().strip('\n')
-        connection.close()
-
-        #response parameter
-        ping = response.split('\n')[1].split('|')[0].split('=')
-        # battery parameter
-        battery = response.split('\n')[7].split('|')[1].split('=')
-
-        if int(ping[1]) == 0: # if response parameter 0 then all ok
-            return True, battery[1]
-        else:
-            return False, None
