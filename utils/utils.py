@@ -41,7 +41,7 @@ class Commands(object):
 
 class FileParser(object):
     """Parse commands from file to a Commands object"""
-    def __init__(self, fil e_path):
+    def __init__(self, file_path):
         self.__file_path = file_path
         self.__commands = Commands()
 
@@ -53,7 +53,7 @@ class FileParser(object):
     def get_commands(self):
         return self.__commands
 
-     def __parse_command(self, command):
+    def __parse_command(self, command):
         command = command.strip('\n')
         command = (' '.join(command.split())).split(' ')
         return command
