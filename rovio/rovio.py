@@ -47,8 +47,8 @@ class ImageHandler(threading.Thread):
         image.write(self.__image_data)
         image.close()
 
+        print 'capture_image ... done'
+
         config = Config()
         subprocess.call(config.get('open') + ' ' +
                         image_path + ' > /dev/null 2>&1', shell=True)
-
-        print 'capture_image ... done'
