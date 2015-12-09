@@ -8,5 +8,8 @@ parser.add_argument('-t', '--test', action='store_true',
 parser.add_argument('-p', '--ping', action='store_true',
                         help='Ping rovio IP address')
 
+parser.add_argument('-c', '--clear', action='store_true',
+                        help='Cleans all stored images')
+
 parser.add_argument('file_path', metavar='FILE_NAME', type=str, nargs=1,
                         help='A path to file that contains a commands to Rovio')

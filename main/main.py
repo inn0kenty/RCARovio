@@ -23,6 +23,8 @@ def main():
             test.ping()
         if args.test:
             test.syntax()
+        if args.clear:
+            utils.drop_data()
     else:
         remote_rovio = rovio.Rovio(address[1], commands)
         remote_rovio.do()
