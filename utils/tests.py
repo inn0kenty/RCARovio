@@ -44,7 +44,7 @@ class Test(object):
         if self.__address[0] != 'address' or not self.__is_ip_correct(
                 self.__address[1]):
             print 'Syntax error\naddress should be first'
-            exit(-1)
+            return False
 
         for command in self.__commands:  # for all commands check parameters
             line_number += 1
@@ -54,7 +54,7 @@ class Test(object):
                 test_func = self.__available_commands[command.get_name()]
             except:
                 print 'Syntax error\nline ' + str(line_number)
-                exit(-1)
+                return False
 
             params_count = len(command.get_params())
 
@@ -62,15 +62,16 @@ class Test(object):
             # it is error
             if len(test_func) != params_count:
                 print 'Syntax error\nline ' + str(line_number)
-                exit(-1)
+                return False
 
             # checking all parameters the correctness
             for test, command in zip(test_func, command.get_params()):
                 if not test(command):
                     print 'Syntax error\nline ' + str(line_number)
-                    exit(-1)
+                    return False
 
         print 'Syntax test OK'
+        return True
 
     def __is_speed_correct(self, speed):
         speed = int(speed)
@@ -93,22 +94,23 @@ class Test(object):
         # checking if first command is a address
         if self.__address[0] != 'address':
             print 'Ping error\nFile syntax error\naddress keyword not found'
-            exit(-1)
+            return False
 
         # checking ip address the correctness
         ip = self.__address[1]
         if not self.__is_ip_correct(ip):
             print 'Ping error\nBad address'
-            exit(-1)
+            return False
 
         # send request to rovio
         with HTTPRequests(ip) as con:
             ping, battery = con.ping()
 
         if not ping:
-            exit(-1)
+            return False
 
         print 'Ping test OK\nBattery level: ' + battery
+        return True
 
     def __is_ip_correct(self, ip):
         ip = ip.split('.')
