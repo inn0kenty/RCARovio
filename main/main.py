@@ -15,6 +15,7 @@ def main():
 
     file_parser = utils.FileParser(file_path)
     address, commands = file_parser.get_data()
+    config = utils.Config()
 
     if len(sys.argv) > 2:
         test = tests.Test(address, commands)
