@@ -3,6 +3,7 @@ from . import parser
 import sys
 import os.path
 from utils import utils
+from rovio import rovio
 
 def main():
     args = parser.parse_args()
@@ -21,4 +22,6 @@ def main():
             test.ping()
         if args.test:
             test.syntax()
-
+    else:
+        remote_rovio = rovio.Rovio(address[1], commands)
+        remote_rovio.do()

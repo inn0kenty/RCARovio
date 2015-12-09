@@ -1,6 +1,6 @@
 from utils import http
 import time
-from datetimme import datetime
+from datetime import datetime
 import os
 
 
@@ -21,7 +21,8 @@ class Rovio(object):
                 for t in xrange(command.get_time()):
                     if not r.move(command):
                         break
-                    time.sleep(1000)
+                    time.sleep(1)
+                print command.get_name() + '... done'
 
     def __impage_handler(self, data):
         image_path = os.getenv("HOME") + '/.rovio/'

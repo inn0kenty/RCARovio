@@ -18,7 +18,7 @@ class Command(object):
         return self.__speed
 
     def get_time(self):
-        return self.__time
+        return int(self.__time)
 
     def get_value(self):
         return self.__value

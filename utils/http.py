@@ -26,7 +26,8 @@ class HTTPRequests (object):
         response = response.read().strip('\n')
 
         # response parameter
-        response = response.split('\n')[1].split('|')[0].split('=')
+        response = response.split('\n')[1].split('|')[0].split('=')[1]
+
         if int(response) != 0:
             print 'Bad response from Rovio\nInternal error'
             return False
