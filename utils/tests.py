@@ -1,4 +1,4 @@
-from utils import http
+from http import HTTPRequests
 
 
 class Test(object):
@@ -102,7 +102,7 @@ class Test(object):
             exit(-1)
 
         # send request to rovio
-        with http.HTTPRequests(ip) as con:
+        with HTTPRequests(ip) as con:
             ping, battery = con.ping()
 
         if not ping:

@@ -1,4 +1,4 @@
-from test import tests
+from utils import tests
 from . import parser
 import sys
 import os.path
