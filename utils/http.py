@@ -1,6 +1,5 @@
 import httplib
 import urllib
-import time
 
 
 class HTTPRequests (object):
