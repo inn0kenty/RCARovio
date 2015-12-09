@@ -1,12 +1,11 @@
-from utils import tests
+from utils.tests import Test
 from . import parser
 import sys
 import os.path
-from utils import utils
-from utils import http
-from rovio import rovio
+from utils.utils import FileParser, Config
+from rovio_base.rovio import Rovio
 
-def main():
+def main() :
     args = parser.parse_args()
     file_path = args.file_path[0]
 
@@ -14,17 +13,17 @@ def main():
         print 'File not found'
         exit(-1);
 
-    file_parser = utils.FileParser(file_path)
+    file_parser = FileParser(file_path)
     address, commands = file_parser.get_data()
-    config = utils.Config()
+    config = Config()
 
     if len(sys.argv) > 2:
-        test = tests.Test(address, commands)
+        test = Test(address, commands)
         if args.ping:
             test.ping()
         if args.test:
             test.syntax()
     else:
-        remote_rovio = rovio.Rovio(address[1], commands,
-                                   config.get('resolution'))
+        remote_rovio = Rovio(address[1], commands,
+                             config.get('resolution'))
         remote_rovio.do()
