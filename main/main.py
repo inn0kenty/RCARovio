@@ -24,8 +24,6 @@ def main():
             test.ping()
         if args.test:
             test.syntax()
-        if args.clear:
-            utils.drop_data()
     else:
         remote_rovio = rovio.Rovio(address[1], commands,
                                    config.get('resolution'))

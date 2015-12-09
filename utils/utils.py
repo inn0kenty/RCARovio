@@ -1,10 +1,10 @@
 from command import CommandQueue
 import os
-import shutil
 
-class  FileParser(object):
+
+class FileParser(object):
     """Parse commands from file to a CommandQueue object"""
-    def  __init__(self, file_path):
+    def __init__(self, file_path):
         self.__file_path = file_path
         self.__commands = CommandQueue()
 
@@ -61,6 +61,3 @@ class Config(object):
         return param
 
 
-def drop_data():
-    path = os.getenv('HOME') + '/.rovio/'
-    shutil.rmtree(path)
