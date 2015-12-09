@@ -62,6 +62,9 @@ class HTTPRequests (object):
         else:
             return False, None
 
+    def set_resolution(self, param):
+        self.__connection.request('POST','/ChangeResolution.cgi?ResType='
+                                  + param)
 
     def open(self):
         self.__connection = httplib.HTTPConnection(self.__ip, timeout=10)

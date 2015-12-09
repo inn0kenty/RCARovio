@@ -8,11 +8,12 @@ import threading
 
 
 class Rovio(object):
-    def __init__(self, address, commands):
+    def __init__(self, address, commands, resolution):
         self.__address = address
         self.__commands = commands
         self.__remote_rovio = HTTPRequests(address)
         self.__remote_rovio.add_image_handler(self.__impage_handler)
+        self.__remote_rovio.set_resolution(resolution)
 
     def do(self):
         with self.__remote_rovio as r:

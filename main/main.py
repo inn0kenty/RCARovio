@@ -3,6 +3,7 @@ from . import parser
 import sys
 import os.path
 from utils import utils
+from utils import http
 from rovio import rovio
 
 def main():
@@ -26,5 +27,6 @@ def main():
         if args.clear:
             utils.drop_data()
     else:
-        remote_rovio = rovio.Rovio(address[1], commands)
+        remote_rovio = rovio.Rovio(address[1], commands,
+                                   config.get('resolution'))
         remote_rovio.do()
