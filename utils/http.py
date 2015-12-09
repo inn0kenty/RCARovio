@@ -19,7 +19,7 @@ class HTTPRequests (object):
             self.__connection.request('POST', '/rev.cgi', params)
             response = self.__connection.getresponse()
         except:
-            print 'Connection failed'
+            print command.get_name() + '... connection failed'
             return False
 
         # parsing response
@@ -35,10 +35,17 @@ class HTTPRequests (object):
         return True
 
     def cap_image(self):
-        self.__connection.request('POST', '/Jpeg/CamImg0001.jpg')
-        response = self.__connection.getresponse()
+        try:
+            self.__connection.request('POST', '/Jpeg/CamImg0001.jpg')
+            response = self.__connection.getresponse()
+        except:
+            print 'capture_image... connection failed'
+            return False
+
         if self.__image_handler:
             self.__image_handler(response.read())
+
+        return True
 
     def ping(self):
         params = urllib.urlencode([('Cmd', 'nav'), ('action', 1)])
@@ -46,7 +53,7 @@ class HTTPRequests (object):
             self.__connection.request('POST', '/rev.cgi', params)
             response = self.__connection.getresponse()
         except:
-            print 'Ping error\nConnection failed'
+            print 'Ping... connection failed'
             return False, None
 
         # parsing response
@@ -63,8 +70,14 @@ class HTTPRequests (object):
             return False, None
 
     def set_resolution(self, param):
-        self.__connection.request('POST','/ChangeResolution.cgi?ResType='
-                                  + param)
+        try:
+            self.__connection. request('POST',
+                                       '/ChangeResolution.cgi?ResType=' + param)
+        except:
+            print 'Set resolution... connection faild'
+            return False
+
+        return True
 
     def open(self):
         self.__connection = httplib.HTTPConnection(self.__ip, timeout=10)
