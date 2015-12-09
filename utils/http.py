@@ -12,34 +12,26 @@ class HTTPRequests (object):
         self.__image_handler = image_handler
 
     def move(self, command):
-        connection = httplib.HTTPConnection(self.__ip, timeout=10)
-
         params = urllib.urlencode([('Cmd', 'nav'), ('action', 18),
                                    ('drive', command.get_value()),
                                    ('speed', command.get_speed())])
 
-        for i in xrange(command.get_time()):
-            try:
-                connection.request('POST', '/rev.cgi', params)
-                response = connection.getresponse()
-            except:
-                print 'Connection failed'
-                connection.close()
-                return False
+        try:
+            self.__connection.request('POST', '/rev.cgi', params)
+            response = self.__connection.getresponse()
+        except:
+            print 'Connection failed'
+            return False
 
-            # parsing response
-            response = response.read().strip('\n')
+        # parsing response
+        response = response.read().strip('\n')
 
-            # response parameter
-            response = response.split('\n')[1].split('|')[0].split('=')
-            if int(response) != 0:
-                print 'Bad response from Rovio\nInternal error'
-                connection.close()
-                return False
+        # response parameter
+        response = response.split('\n')[1].split('|')[0].split('=')
+        if int(response) != 0:
+            print 'Bad response from Rovio\nInternal error'
+            return False
 
-            time.sleep(1)
-
-        connection.close()
         return True
 
     def cap_image(self):
@@ -48,20 +40,16 @@ class HTTPRequests (object):
             self.__image_handler(file_name)
 
     def ping(self):
-        connection = httplib.HTTPConnection(self.__ip, timeout=10)
-
         params = urllib.urlencode([('Cmd', 'nav'), ('action', 1)])
         try:
-            connection.request('POST', '/rev.cgi', params)
-            response = connection.getresponse()
+            self.__connection.request('POST', '/rev.cgi', params)
+            response = self.__connection.getresponse()
         except:
             print 'Ping error\nConnection failed'
-            connection.close()
             return False, None
 
         # parsing response
         response = response.read().strip('\n')
-        connection.close()
 
         # response parameter
         ping = response.split('\n')[1].split('|')[0].split('=')
@@ -72,3 +60,17 @@ class HTTPRequests (object):
             return True, battery[1]
         else:
             return False, None
+
+
+    def open(self):
+        self.__connection = httplib.HTTPConnection(self.__ip, timeout=10)
+
+    def close(self):
+        self.__connection.close()
+
+    def __enter__(self):
+        self.open()
+        return self
+
+    def __exit__(self, type, value, traceback):
+        self.close()

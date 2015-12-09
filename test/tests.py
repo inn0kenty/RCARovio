@@ -1,11 +1,12 @@
 from utils import http
 
+
 class Test(object):
-    def __init__(self, commands):
+    def __init__(self, address, commands):
+        self.__address = address
         self.__commands = commands  # commands from file
         # all available commands
-        self.__available_commands = {'address': (self.__is_ip_correct, ),
-                                     'forward': (self.__is_speed_correct,
+        self.__available_commands = {'forward': (self.__is_speed_correct,
                                                  self.__is_time_correct),
                                      'backward': (self.__is_speed_correct,
                                                   self.__is_time_correct),
@@ -40,13 +41,14 @@ class Test(object):
     def syntax(self):
         line_number = 0  # line counter
 
+        if self.__address[0] != 'address' or not self.__is_ip_correct(
+                self.__address[1]):
+            print 'Syntax error\naddress should be first'
+            exit(-1)
+
         for command in self.__commands:  # for all commands check parameters
             line_number += 1
 
-            if line_number == 1:  # checking if a address is a first statement
-                if command.get_name() != 'address':
-                    print 'Syntax error\naddress should be first'
-                    exit(-1)
             # checking if command is available
             try:
                 test_func = self.__available_commands[command.get_name()]
@@ -87,21 +89,21 @@ class Test(object):
         return True
 
     def ping(self):
-        command = self.__commands.get(0)
+        # command = self.__commands.get(0)
         # checking if first command is a address
-        if command.get_name() != 'address':
+        if self.__address[0] != 'address':
             print 'Ping error\nFile syntax error\naddress keyword not found'
             exit(-1)
 
         # checking ip address the correctness
-        ip = command.get_params()[0]
+        ip = self.__address[1]
         if not self.__is_ip_correct(ip):
             print 'Ping error\nBad address'
             exit(-1)
 
         # send request to rovio
-        request = http.HTTPRequests(ip)
-        ping, battery = request.ping()
+        with http.HTTPRequests(ip) as con:
+            ping, battery = con.ping()
 
         if not ping:
             exit(-1)

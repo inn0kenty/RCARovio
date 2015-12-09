@@ -13,10 +13,10 @@ def main():
         exit(-1);
 
     file_parser = utils.FileParser(file_path)
-    commands = file_parser.get_commands()
+    address, commands = file_parser.get_data()
 
     if len(sys.argv) > 2:
-        test = tests.Test(commands)
+        test = tests.Test(address, commands)
         if args.ping:
             test.ping()
         if args.test:
