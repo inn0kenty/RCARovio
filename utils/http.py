@@ -34,9 +34,10 @@ class HTTPRequests (object):
         return True
 
     def cap_image(self):
-        file_name = ""
+        self.__connection.request('POST', '/Jpeg/CamImg0001.jpg')
+        response = self.__connection.getresponse()
         if self.__image_handler:
-            self.__image_handler(file_name)
+            self.__image_handler(response.read())
 
     def ping(self):
         params = urllib.urlencode([('Cmd', 'nav'), ('action', 1)])
