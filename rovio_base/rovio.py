@@ -22,10 +22,14 @@ class Rovio(object):
                     r.cap_image()
                     continue
 
-                for t in xrange(command.get_time()):
+                if command.get_name() == 'wait':
+                    time.sleep(command.get_time())
+                    continue
+
+                for t in xrange(command.get_time()*5):
                     if not r.move(command):
                         break
-                    time.sleep(1)
+                    time.sleep(0.1)
                 print command.get_name() + '... done'
 
     def __impage_handler(self, data):

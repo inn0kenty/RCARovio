@@ -8,8 +8,8 @@ class Command(object):
 
         self.__parameters = command_array
         command_array = dict(enumerate(command_array))
-        self.__speed = command_array.get(0, 1)
-        self.__time = command_array.get(1, 1)
+        self.__speed = 10 #command_array.get(0, 10)
+        self.__time = command_array.get(0, 1)
 
     def get_name(self):
         return self.__name
@@ -42,7 +42,8 @@ class Command(object):
                 'head_middle': 13,
                 'rotate_left_by_20_degree': 17,
                 'rotate_right_by_20_degree': 18,
-                'capture_image': 19
+                'capture_image': 19,
+                'wait': 20,
                 }.get(x, -1)
 
 class CommandQueue(object):
