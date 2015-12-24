@@ -36,7 +36,7 @@ class HTTPRequests (object):
 
     def cap_image(self):
         try:
-            self.__connection.request('POST', '/Jpeg/CamImg0001.jpg')
+            self.__connection.request('GET', '/Jpeg/CamImg0001.jpg')
             response = self.__connection.getresponse()
         except:
             print 'capture_image... connection failed'
@@ -71,7 +71,7 @@ class HTTPRequests (object):
 
     def set_resolution(self, param):
         try:
-            self.__connection. request('POST',
+            self.__connection.request('GET',
                                        '/ChangeResolution.cgi?ResType=' + param)
         except:
             print 'Set resolution... connection faild'

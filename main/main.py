@@ -24,6 +24,5 @@ def main() :
         if args.test:
             test.syntax()
     else:
-        remote_rovio = Rovio(address[1], commands,
-                             config.get('resolution'))
+        remote_rovio = Rovio(address[1], commands)
         remote_rovio.do()

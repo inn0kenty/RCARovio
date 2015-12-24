@@ -8,28 +8,35 @@ import threading
 
 
 class Rovio(object):
-    def __init__(self, address, commands, resolution):
+    def __init__(self, address, commands):
         self.__address = address
         self.__commands = commands
         self.__remote_rovio = HTTPRequests(address)
         self.__remote_rovio.add_image_handler(self.__impage_handler)
-        self.__remote_rovio.set_resolution(resolution)
+        self.__config = Config()
+        self.__remote_rovio.open()
+        self.__remote_rovio.set_resolution(self.__config.get('resolution'))
+        self.__remote_rovio.close()
 
     def do(self):
         with self.__remote_rovio as r:
+            #print self.__config.get('resolution')
+            #r.set_resolution(self.__config.get('resolution'))
             for command in self.__commands:
                 if command.get_name() == 'capture_image':
                     r.cap_image()
                     continue
-
                 if command.get_name() == 'wait':
                     time.sleep(command.get_time())
                     continue
-
-                for t in xrange(command.get_time()*5):
+                if command.get_time() < 0:
+                    r.move(command)
+                    time.sleep(0.5)
+                    continue
+                for t in xrange(command.get_time()*4):
                     if not r.move(command):
                         break
-                    time.sleep(0.1)
+                    time.sleep(0.15)
                 print command.get_name() + '... done'
 
     def __impage_handler(self, data):
@@ -46,9 +53,10 @@ class ImageHandler(threading.Thread):
         image_path = os.getenv("HOME") + '/.rovio/'
         if not os.path.exists(image_path):
                 os.makedirs(image_path)
-        image_name = datetime.now().strftime("%Y-%m-%d-%H-%M-%S.jpg")
+        image_name = image_path + \
+            datetime.now().strftime("%Y-%m-%d-%H-%M-%S.jpg")
 
-        image = open(image_path + image_name, 'wb')
+        image = open(image_name, 'wb')
         image.write(self.__image_data)
         image.close()
 
@@ -56,4 +64,4 @@ class ImageHandler(threading.Thread):
 
         config = Config()
         subprocess.call(config.get('open') + ' ' +
-                        image_path + ' > /dev/null 2>&1', shell=True)
+                        image_name + ' > /dev/null 2>&1', shell=True)
