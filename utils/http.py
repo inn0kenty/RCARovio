@@ -18,6 +18,9 @@ class HTTPRequests (object):
         try:
             self.__connection.request('POST', '/rev.cgi', params)
             response = self.__connection.getresponse()
+        except KeyboardInterrupt:
+            print '\nAborted by user'
+            exit(0)
         except:
             print command.get_name() + '... connection failed'
             return False
@@ -38,6 +41,9 @@ class HTTPRequests (object):
         try:
             self.__connection.request('GET', '/Jpeg/CamImg0001.jpg')
             response = self.__connection.getresponse()
+        except KeyboardInterrupt:
+            print '\nAborted by user'
+            exit(0)
         except:
             print 'capture_image... connection failed'
             return False
@@ -52,6 +58,9 @@ class HTTPRequests (object):
         try:
             self.__connection.request('POST', '/rev.cgi', params)
             response = self.__connection.getresponse()
+        except KeyboardInterrupt:
+            print '\nAborted by user'
+            exit(0)
         except:
             print 'Ping... connection failed'
             return False, None
@@ -73,6 +82,9 @@ class HTTPRequests (object):
         try:
             self.__connection.request('GET',
                                        '/ChangeResolution.cgi?ResType=' + param)
+        except KeyboardInterrupt:
+            print '\nAborted by user'
+            exit(0)
         except:
             print 'Set resolution... connection faild'
             return False
