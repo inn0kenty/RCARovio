@@ -3,8 +3,8 @@
 from distutils.core import setup
 
 setup(name='Rovio',
-      version='1.0',
-      description='Remote robot control',
+      version='1.1',
+      description='Remote Rovio control',
       author='Innokenty Lebedev (RobotsCityAmsterdam)',
       author_email='innlebedev@gmail.com',
       url='http://robotscityamsterdam.com',
