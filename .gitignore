@@ -2,6 +2,5 @@ v
 .ropeproject
 *.pyc
 *.test
-*.cfg
 build
 *.swp
