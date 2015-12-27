@@ -9,7 +9,7 @@
 В терминале необходимо выполнить команду:
 
 ```bash
-$ pip install git+http://git.robotscityamsterdam.com/git/inn0kenty/rovio.git
+$ sudo pip2 install git+http://git.robotscityamsterdam.com/git/inn0kenty/rovio.git
 ```
 
 Система может попросить логин и пароль. Тогда необходимо ввести логин `rca`, 
