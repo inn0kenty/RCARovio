@@ -6,34 +6,25 @@ class Test(object):
         self.__address = address
         self.__commands = commands  # commands from file
         # all available commands
-        self.__available_commands = {'forward': (#self.__is_speed_correct,
-                                                 self.__is_time_correct,),
-                                     'backward': (#self.__is_speed_correct,
-                                                  self.__is_time_correct,),
-                                     'straight_left': (#self.__is_speed_correct,
-                                                       self.__is_time_correct,),
-                                     'straight_right': (#self.__is_speed_correct,
-                                                        self.__is_time_correct,),
+        self.__available_commands = {'forward': (self.__is_time_correct,),
+                                     'backward': (self.__is_time_correct,),
+                                     'straight_left': (self.__is_time_correct,),
+                                     'straight_right': (self.__is_time_correct,),
                                      'rotate_left_by_speed':
-                                     (),#self.__is_speed_correct, ),
+                                     (self.__is_speed_correct,),
                                      'rotate_right_by_speed':
-                                     (),#self.__is_speed_correct, ),
+                                     (self.__is_speed_correct,),
                                      'diagonal_forward_left':
-                                     (#self.__is_speed_correct,
-                                      self.__is_time_correct,),
+                                     (self.__is_time_correct,),
                                      'diagonal_forward_right':
-                                     (#self.__is_speed_correct,
-                                      self.__is_time_correct,),
+                                     (self.__is_time_correct,),
                                      'diagonal_backward_left':
-                                     (#self.__is_speed_correct,
-                                      self.__is_time_correct,),
+                                     (self.__is_time_correct,),
                                      'diagonal_backward_right':
-                                     (#self.__is_speed_correct,
-                                      self.__is_time_correct,),
-                                     'head_up': (),#self.__is_speed_correct, ),
-                                     'head_down': (),#self.__is_speed_correct, ),
-                                     'head_middle':
-                                     (),#self.__is_speed_correct, ),
+                                     (self.__is_time_correct,),
+                                     'head_up': (),
+                                     'head_down': (),
+                                     'head_middle':(),
                                      'rotate_left_by_20_degree': (),
                                      'rotate_right_by_20_degree': (),
                                      'capture_image': (),
