@@ -20,24 +20,29 @@ class Rovio(object):
 
     def do(self):
         with self.__remote_rovio as r:
-            #print self.__config.get('resolution')
-            #r.set_resolution(self.__config.get('resolution'))
             for command in self.__commands:
                 if command.get_name() == 'capture_image':
-                    r.cap_image()
+                    done = r.cap_image()
                     continue
+
                 if command.get_name() == 'wait':
                     time.sleep(command.get_time())
+                    done =True
                     continue
+
                 if command.get_time() < 0:
-                    r.move(command)
+                    done = r.move(command)
                     time.sleep(0.5)
                     continue
+
                 for t in xrange(command.get_time()*4):
-                    if not r.move(command):
+                    done = r.move(command)
+                    if not done:
                         break
                     time.sleep(0.15)
-                print command.get_name() + '... done'
+
+                if done:
+                    print command.get_name() + '... done'
 
     def __impage_handler(self, data):
         handler = ImageHandler(data)
