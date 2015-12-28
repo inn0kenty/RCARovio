@@ -53,6 +53,19 @@ class HTTPRequests (object):
 
         return True
 
+    def reset_home(self):
+        params = urllib.urlencode([('Cmd', 'nav'), ('action', 27)])
+        try:
+            self.__connection.request('POST', '/rev.cgi', params)
+        except KeyboardInterrupt:
+            print '\nAborted by user'
+            exit(0)
+        except Exception as e:
+            print 'Reset home... connection faild', e.message
+            return False
+
+        return True
+
     def ping(self):
         params = urllib.urlencode([('Cmd', 'nav'), ('action', 1)])
         try:

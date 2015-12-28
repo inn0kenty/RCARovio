@@ -8,8 +8,13 @@ class Command(object):
 
         self.__parameters = command_array
         command_array = dict(enumerate(command_array))
-        self.__speed = 1 #command_array.get(0, 10)
-        self.__time = command_array.get(0, -1)
+        if self.__name == 'rotate_left_by_speed' or \
+                self.__name == 'rotate_right_by_speed':
+            self.__speed = command_array.get(0, 1)
+            self.__time = -1
+        else:
+            self.__speed = 1 #command_array.get(0, 10)
+            self.__time = command_array.get(0, -1)
 
     def get_name(self):
         return self.__name
