@@ -3,7 +3,7 @@
 from distutils.core import setup
 
 setup(name='Rovio',
-      version='1.1.1',
+      version='1.1.2',
       description='Remote Rovio control',
       author='Innokenty Lebedev (RobotsCityAmsterdam)',
       author_email='innlebedev@gmail.com',
