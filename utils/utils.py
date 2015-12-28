@@ -57,7 +57,10 @@ class Config(object):
 
     def __parse_param(self, param):
         param = param.strip('\n')
-        param = (''.join(param.split())).split(':')
+        param = param.split(':')
+        param[0] = ''.join(param[0].split())
+        param[1] = param[1].strip(' ')
+        #param = (''.join(param.split())).split(':')
         return param
 
 
